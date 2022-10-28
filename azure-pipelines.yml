@@ -65,12 +65,6 @@ stages:
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
-    - script: |
-        echo "\nBuild directories\n"
-        pwd $(Build.ArtifactStagingDirectory)
-        ls -la $(Build.ArtifactStagingDirectory)
-        echo "$(Build.BuildId)"
-
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
