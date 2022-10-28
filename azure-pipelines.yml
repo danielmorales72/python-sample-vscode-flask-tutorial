@@ -33,6 +33,11 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    
+    - script: |
+        echo "\nCurrent Python version\n"
+        which python
+
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
@@ -47,6 +52,10 @@ stages:
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
 
+    - script: |
+        pwd $(projectRoot)
+        ls -la $(projectRoot)
+
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
@@ -55,6 +64,12 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
+
+    - script: |
+        echo "\nBuild directories\n"
+        pwd $(Build.ArtifactStagingDirectory)
+        ls -la $(Build.ArtifactStagingDirectory)
+        echo "$(Build.BuildId)"
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
